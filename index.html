@@ -546,7 +546,7 @@ async function go(){
 
 // ── API
 async function callAI(prompt,maxTok=1000){
-  const res=await fetch('/api.saju',{method:'POST',headers:{'Content-Type':'application/json'},
+  const res=await fetch('/api/saju',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTok,
       system:'You are a master Korean Saju reader. Respond ONLY in valid JSON. No markdown, no preamble.',
       messages:[{role:'user',content:prompt}]})});
