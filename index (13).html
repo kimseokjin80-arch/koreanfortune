@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Korean Fortune · Saju Reading</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9906542757251704" crossorigin="anonymous"></script>
+<style>
+:root{--ink:#0a0a0f;--rice:#f5f0e8;--gold:#c9a84c;--gold-l:#e8c97a;--red:#8b1a1a;--jade:#2d5a4e;--mist:#b8ccc8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--ink);color:var(--rice);font-family:"EB Garamond",serif;min-height:100vh;overflow-x:hidden;}
+.bg-layer{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 20% 10%,rgba(139,26,26,.12),transparent 60%),radial-gradient(ellipse 60% 80% at 80% 80%,rgba(45,90,78,.15),transparent 60%),#0a0a0f;}
+.bg-grid{position:fixed;inset:0;z-index:0;opacity:.04;background-image:linear-gradient(var(--gold) 1px,transparent 1px),linear-gradient(90deg,var(--gold) 1px,transparent 1px);background-size:60px 60px;}
+.sym-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.sym{position:absolute;color:var(--gold);opacity:0;animation:floatSym 20s infinite;}
+@keyframes floatSym{0%{opacity:0;transform:translateY(0) rotate(0deg)}10%{opacity:.08}90%{opacity:.04}100%{opacity:0;transform:translateY(-120px) rotate(180deg)}}
+.wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 24px 80px;}
+header{text-align:center;padding:56px 0 44px;}
+.hline{width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 18px;}
+.kor-sub{font-family:"Noto Serif KR",serif;font-size:clamp(12px,2vw,15px);letter-spacing:.4em;color:var(--gold);margin-bottom:10px;opacity:.8;}
+h1{font-family:"Cinzel Decorative",serif;font-size:clamp(34px,7vw,72px);font-weight:700;letter-spacing:.08em;background:linear-gradient(135deg,var(--gold-l),var(--gold),#a07830);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:14px;}
+.tagline{font-size:clamp(13px,2vw,17px);color:var(--mist);font-style:italic;letter-spacing:.05em;}
+.elems{display:flex;justify-content:center;gap:24px;margin-top:24px;}
+.el{display:flex;flex-direction:column;align-items:center;gap:3px;}
+.el-i{font-size:26px;}.el-l{font-size:9px;letter-spacing:.2em;opacity:.5;color:var(--gold);}
+.ad{border:1px dashed rgba(255,255,255,.1);padding:22px;text-align:center;color:rgba(255,255,255,.18);font-size:11px;letter-spacing:.2em;margin:22px 0;border-radius:1px;}
+.card{background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:44px 40px;position:relative;overflow:hidden;margin-bottom:36px;}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.co{position:absolute;width:18px;height:18px;border-color:var(--gold);border-style:solid;opacity:.35;}
+.co.tl{top:7px;left:7px;border-width:1px 0 0 1px}.co.tr{top:7px;right:7px;border-width:1px 1px 0 0}
+.co.bl{bottom:7px;left:7px;border-width:0 0 1px 1px}.co.br{bottom:7px;right:7px;border-width:0 1px 1px 0}
+.card-title{font-family:"Cinzel Decorative",serif;font-size:clamp(12px,2vw,15px);letter-spacing:.2em;color:var(--gold);margin-bottom:28px;text-align:center;}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.fg-full{grid-column:1/-1;}.fgroup{display:flex;flex-direction:column;gap:7px;}
+label{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:.7;}
+input,select{background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);border-radius:1px;color:var(--rice);font-family:"EB Garamond",serif;font-size:16px;padding:11px 15px;outline:none;transition:all .3s;width:100%;-webkit-appearance:none;}
+input:focus,select:focus{border-color:rgba(201,168,76,.6);background:rgba(255,255,255,.07);}
+input::placeholder{color:rgba(245,240,232,.25);}
+select option{background:#1a1612;color:var(--rice);}
+.brow{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:9px;}
+.plan-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0;}
+.plan-tab{border:1px solid rgba(201,168,76,.25);background:transparent;color:var(--rice);padding:14px;cursor:pointer;text-align:center;font-family:"EB Garamond",serif;transition:all .3s;border-radius:1px;}
+.plan-tab .pt-icon{font-size:22px;display:block;margin-bottom:5px;}
+.plan-tab .pt-name{font-size:13px;font-weight:500;display:block;}
+.plan-tab .pt-price{font-size:11px;opacity:.55;display:block;margin-top:2px;}
+.plan-tab.active-free{border-color:var(--jade);background:rgba(45,90,78,.15);color:#7ecfb8;}
+.plan-tab.active-prem{border-color:var(--gold);background:rgba(201,168,76,.1);color:var(--gold-l);}
+.prem-inc{border:1px solid rgba(201,168,76,.2);background:rgba(201,168,76,.04);padding:18px 22px;margin:0 0 18px;border-radius:1px;display:none;}
+.prem-inc.show{display:block;}
+.prem-inc ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.prem-inc li{font-size:13px;color:var(--mist);display:flex;align-items:center;gap:7px;}
+.prem-inc li span{color:var(--gold);}
+.email-row{display:none;margin-bottom:18px;}.email-row.show{display:block;}
+.btn-go{width:100%;background:linear-gradient(135deg,var(--red),#6b1414,var(--red));border:1px solid rgba(201,168,76,.4);color:var(--gold-l);font-family:"Cinzel Decorative",serif;font-size:clamp(11px,2vw,14px);letter-spacing:.2em;padding:17px;cursor:pointer;transition:all .4s;border-radius:1px;}
+.btn-go.prem-mode{background:linear-gradient(135deg,#6b3d00,#a06020,#6b3d00);}
+.btn-go.admin-mode{background:linear-gradient(135deg,#1a3a6b,#2a5aa0,#1a3a6b);border-color:rgba(100,160,255,.5);}
+.btn-go:hover{border-color:var(--gold);box-shadow:0 0 30px rgba(139,26,26,.5);transform:translateY(-1px);}
+.admin-trigger{display:block;text-align:center;margin-top:10px;font-size:13px;color:rgba(255,255,255,.2);cursor:pointer;padding:4px;user-select:none;letter-spacing:.3em;}
+.admin-trigger:hover{color:rgba(255,255,255,.4);}
+.admin-modal{display:none;position:fixed;inset:0;z-index:300;background:rgba(10,10,15,.88);align-items:center;justify-content:center;}
+.admin-modal.show{display:flex;}
+.admin-box{background:#0f1420;border:1px solid rgba(100,160,255,.3);border-radius:4px;padding:32px 28px;width:300px;text-align:center;}
+.admin-box h3{font-family:"Cinzel Decorative",serif;font-size:13px;letter-spacing:.2em;color:#7ab0ff;margin-bottom:20px;}
+.admin-box input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(100,160,255,.3);border-radius:3px;color:var(--rice);font-family:"EB Garamond",serif;font-size:16px;padding:11px 14px;outline:none;margin-bottom:12px;text-align:center;letter-spacing:.2em;}
+.admin-btns{display:flex;gap:8px;}
+.admin-btns button{flex:1;padding:10px;border-radius:3px;cursor:pointer;font-family:"Cinzel Decorative",serif;font-size:10px;letter-spacing:.15em;transition:all .2s;}
+.btn-unlock{background:rgba(100,160,255,.2);border:1px solid rgba(100,160,255,.4);color:#a0c8ff;}
+.btn-cancel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);}
+.admin-tag{position:fixed;top:12px;right:12px;z-index:200;background:rgba(26,58,107,.9);border:1px solid rgba(100,160,255,.5);color:#7ab0ff;font-size:10px;letter-spacing:.2em;padding:6px 14px;border-radius:20px;display:none;font-family:"Cinzel Decorative",serif;}
+.admin-tag.show{display:block;}
+.pp-modal{display:none;position:fixed;inset:0;z-index:400;background:rgba(10,10,15,.97);overflow-y:auto;}
+.pp-modal.show{display:block;}
+.pp-close{position:fixed;top:20px;right:24px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-family:"Cinzel Decorative",serif;font-size:10px;letter-spacing:.2em;padding:8px 18px;cursor:pointer;border-radius:2px;z-index:401;}
+.pp-wrap{max-width:760px;margin:0 auto;padding:48px 28px 80px;}
+.pp-wrap h1{font-family:"Cinzel Decorative",serif;font-size:clamp(18px,4vw,28px);background:linear-gradient(135deg,var(--gold-l),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.pp-wrap .pp-date{font-size:12px;color:var(--mist);opacity:.6;margin-bottom:36px;}
+.pp-wrap h2{font-family:"Cinzel Decorative",serif;font-size:13px;color:var(--gold);letter-spacing:.15em;margin-bottom:12px;}
+.pp-wrap p,.pp-wrap li{font-size:14px;color:rgba(245,240,232,.8);margin-bottom:10px;line-height:1.8;}
+.pp-wrap ul{padding-left:20px;margin-bottom:12px;}
+.pp-wrap a{color:var(--gold);text-decoration:none;}
+.pp-section{margin-bottom:30px;}
+.pp-div{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent);margin:24px 0;}
+.pp-back{background:none;border:none;color:var(--gold);font-size:12px;letter-spacing:.15em;cursor:pointer;margin-bottom:32px;opacity:.7;display:flex;align-items:center;gap:6px;}
+.loading{display:none;position:fixed;inset:0;background:rgba(10,10,15,.93);z-index:100;align-items:center;justify-content:center;flex-direction:column;gap:20px;}
+.loading.show{display:flex;}
+.spinner{width:56px;height:56px;border:1px solid rgba(201,168,76,.2);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-txt{font-family:"Noto Serif KR",serif;color:var(--gold);letter-spacing:.3em;font-size:13px;animation:pulse 1.5s ease-in-out infinite;}
+.load-sub{font-size:12px;color:var(--mist);opacity:.5;letter-spacing:.15em;}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+.results{display:none;}.results.show{display:block;animation:fadeUp .8s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.res-hdr{text-align:center;padding:36px 0 28px;}
+.res-name{font-family:"Cinzel Decorative",serif;font-size:clamp(18px,4vw,30px);color:var(--gold-l);margin-bottom:6px;}
+.res-meta{font-size:13px;color:var(--mist);font-style:italic;opacity:.7;}
+.prem-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.4);color:var(--gold);font-size:11px;letter-spacing:.2em;padding:5px 14px;border-radius:20px;margin:10px auto 0;font-family:"Cinzel Decorative",serif;}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:28px 0;}
+.pillar{border:1px solid rgba(201,168,76,.2);background:linear-gradient(180deg,rgba(201,168,76,.06),transparent);padding:18px 10px;text-align:center;border-radius:1px;}
+.p-type{font-size:9px;letter-spacing:.3em;color:var(--gold);opacity:.6;margin-bottom:10px;text-transform:uppercase;}
+.p-han{font-family:"Noto Serif KR",serif;font-size:24px;color:var(--gold-l);margin-bottom:3px;}
+.p-rom{font-size:11px;color:var(--mist);opacity:.7;}
+.p-el{margin-top:8px;font-size:10px;padding:2px 7px;display:inline-block;border-radius:20px;background:rgba(201,168,76,.1);color:var(--gold);}
+.divider{display:flex;align-items:center;gap:14px;margin:28px 0;}
+.dl{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3));}
+.dl:last-child{background:linear-gradient(270deg,transparent,rgba(201,168,76,.3));}
+.ds{color:var(--gold);font-size:16px;opacity:.5;}
+.block{border:1px solid rgba(201,168,76,.14);background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(255,255,255,.01));margin-bottom:18px;padding:26px 30px;position:relative;border-radius:1px;overflow:hidden;}
+.block::after{content:"";position:absolute;top:0;left:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),var(--red));}
+.pb::after{background:linear-gradient(180deg,var(--gold-l),#c9a84c,#a07830);}
+.pb{border-color:rgba(201,168,76,.28);background:linear-gradient(145deg,rgba(201,168,76,.05),rgba(201,168,76,.01));}
+.block-title{font-family:"Cinzel Decorative",serif;font-size:clamp(11px,2vw,13px);letter-spacing:.2em;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:9px;}
+.bi{font-size:17px;}
+.bc{font-size:clamp(14px,2vw,16px);line-height:1.9;color:rgba(245,240,232,.85);}
+.bc p{margin-bottom:11px;}.bc p:last-child{margin-bottom:0;}
+.sc-row{display:flex;align-items:center;gap:11px;margin-bottom:12px;}
+.sc-lbl{min-width:95px;font-size:12px;color:var(--mist);}
+.sc-bar{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.sc-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:2px;width:0;transition:width 1.5s ease;}
+.sc-num{min-width:32px;text-align:right;font-size:12px;color:var(--gold);}
+.lucky-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:14px;}
+.lucky-item{text-align:center;padding:14px 6px;border:1px solid rgba(201,168,76,.14);background:rgba(201,168,76,.03);border-radius:1px;}
+.li-icon{font-size:20px;margin-bottom:5px;}.li-lbl{font-size:9px;letter-spacing:.2em;color:var(--gold);opacity:.6;margin-bottom:3px;}.li-val{font-size:13px;color:var(--rice);}
+.blur-wrap{position:relative;overflow:hidden;margin-bottom:18px;}
+.blur-inner{filter:blur(6px);pointer-events:none;user-select:none;opacity:.6;}
+.blur-over{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(10,10,15,.5);}
+.blur-lbl{font-family:"Cinzel Decorative",serif;font-size:clamp(11px,2vw,14px);letter-spacing:.2em;color:var(--gold);}
+.blur-sub{font-size:12px;color:var(--mist);opacity:.7;}
+.ohang-block{border:1px solid rgba(201,168,76,.2);background:linear-gradient(145deg,rgba(255,255,255,.03),rgba(255,255,255,.01));margin-bottom:18px;padding:26px 30px;position:relative;border-radius:1px;overflow:hidden;}
+.ohang-block::after{content:"";position:absolute;top:0;left:0;bottom:0;width:3px;background:linear-gradient(180deg,#4a9e6b,#3a7fbf);}
+.ohang-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.ohang-lbl{min-width:90px;font-size:13px;color:var(--mist);display:flex;align-items:center;gap:6px;}
+.ohang-lbl .oi{font-size:16px;}
+.ohang-bar{flex:1;height:10px;background:rgba(255,255,255,.06);border-radius:5px;overflow:hidden;}
+.ohang-fill{height:100%;border-radius:5px;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.ohang-pct{min-width:36px;text-align:right;font-size:12px;font-family:"Cinzel Decorative",serif;}
+.ohang-cnt{font-size:11px;opacity:.5;min-width:24px;text-align:right;}
+.ohang-note{margin-top:14px;padding:12px 16px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:2px;font-size:13px;color:rgba(245,240,232,.75);line-height:1.7;}
+.ohang-note strong{color:var(--gold-l);}
+.month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+.month-card{border:1px solid rgba(201,168,76,.15);background:rgba(201,168,76,.03);padding:14px 12px;border-radius:1px;}
+.mc-mo{font-family:"Cinzel Decorative",serif;font-size:10px;letter-spacing:.15em;color:var(--gold);margin-bottom:6px;}
+.mc-stars{display:flex;gap:3px;margin-bottom:6px;}.mc-star{font-size:11px;color:rgba(201,168,76,.25);}.mc-star.on{color:var(--gold);}
+.mc-txt{font-size:12px;color:rgba(245,240,232,.7);line-height:1.6;}
+.dec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px;}
+.dec-card{border:1px solid rgba(201,168,76,.15);background:rgba(201,168,76,.03);padding:14px;border-radius:1px;}
+.dc-yr{font-family:"Cinzel Decorative",serif;font-size:10px;letter-spacing:.15em;color:var(--gold);margin-bottom:5px;}
+.dc-txt{font-size:12px;color:rgba(245,240,232,.75);line-height:1.6;}
+.promo{border:1px solid rgba(201,168,76,.3);background:linear-gradient(135deg,rgba(139,26,26,.15),rgba(45,90,78,.1));padding:32px 28px;text-align:center;margin-top:36px;position:relative;border-radius:1px;}
+.promo::before{content:"✦ UNLOCK FULL PREMIUM READING ✦";position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--ink);padding:0 14px;font-family:"Cinzel Decorative",serif;font-size:9px;letter-spacing:.2em;color:var(--gold);}
+.promo-price{font-family:"Cinzel Decorative",serif;font-size:28px;color:var(--gold-l);margin:8px 0;}
+.promo-note{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:18px;}
+.promo-list{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:24px;text-align:left;}
+.promo-item{font-size:13px;color:var(--mist);display:flex;align-items:center;gap:6px;}
+.promo-item span{color:var(--gold);}
+.pay-btns{display:flex;flex-direction:column;align-items:center;gap:11px;}
+.pay-div{display:flex;align-items:center;gap:11px;width:100%;max-width:320px;}
+.pay-div-line{flex:1;height:1px;background:rgba(255,255,255,.1);}
+.pay-div span{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:.2em;}
+.btn-pp{background:linear-gradient(135deg,#003087,#009cde);color:#fff;border:none;font-family:"EB Garamond",serif;font-size:15px;padding:14px;cursor:pointer;border-radius:4px;width:100%;max-width:320px;display:flex;align-items:center;justify-content:center;gap:9px;}
+.btn-stripe{background:#635bff;color:#fff;border:none;font-family:"EB Garamond",serif;font-size:15px;padding:14px;cursor:pointer;border-radius:4px;width:100%;max-width:320px;display:flex;align-items:center;justify-content:center;gap:9px;}
+.btn-stripe:hover{background:#4f46e5;}
+.btn-pdf{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.35);color:var(--gold);font-family:"Cinzel Decorative",serif;font-size:11px;letter-spacing:.18em;padding:13px 28px;cursor:pointer;transition:all .3s;margin:16px auto 0;border-radius:1px;}
+.btn-pdf:hover{background:rgba(201,168,76,.18);}
+footer{text-align:center;padding:36px 0;border-top:1px solid rgba(201,168,76,.1);font-size:11px;color:rgba(245,240,232,.28);letter-spacing:.1em;}
+.ft-han{font-family:"Noto Serif KR",serif;font-size:17px;color:rgba(201,168,76,.28);margin-bottom:7px;}
+@media(max-width:600px){
+  .card{padding:26px 18px;}.fg{grid-template-columns:1fr;}.brow{grid-template-columns:1fr 1fr;}
+  .pillars{grid-template-columns:1fr 1fr;}.lucky-grid{grid-template-columns:1fr 1fr;}
+  .month-grid{grid-template-columns:1fr 1fr;}.dec-grid{grid-template-columns:1fr;}
+  .promo-list{grid-template-columns:1fr;}.plan-tabs{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="bg-layer"></div><div class="bg-grid"></div>
+<div class="sym-wrap" id="syms"></div>
+<div class="admin-tag" id="adminTag">&#128273; ADMIN MODE</div>
+<div class="loading" id="loading">
+  <div class="spinner"></div>
+  <div class="load-txt">&#49324;&#51452; &#48516;&#49437; &#51473;</div>
+  <div class="load-sub" id="loadSub">Reading the cosmic blueprint...</div>
+</div>
+<form id="ppHidden" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:none">
+  <input type="hidden" name="cmd" value="_xclick">
+  <input type="hidden" name="business" value="sohex7@gmail.com">
+  <input type="hidden" name="item_name" id="ppName" value="SAJU Premium Reading">
+  <input type="hidden" name="amount" value="14.99">
+  <input type="hidden" name="currency_code" value="USD">
+  <input type="hidden" name="no_shipping" value="1">
+  <input type="hidden" name="custom" id="ppCustom" value="">
+</form>
+<div class="admin-modal" id="adminModal" onclick="if(event.target===this)closeAdmin()">
+  <div class="admin-box">
+    <h3>&#9881; Admin Access</h3>
+    <input type="password" id="adminPw" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" onkeydown="if(event.key==='Enter')checkAdmin()"/>
+    <div class="admin-btns">
+      <button class="btn-unlock" onclick="checkAdmin()">UNLOCK</button>
+      <button class="btn-cancel" onclick="closeAdmin()">CANCEL</button>
+    </div>
+  </div>
+</div>
+<div class="pp-modal" id="ppModal">
+  <button class="pp-close" onclick="closePP()">&#10005; CLOSE</button>
+  <div class="pp-wrap">
+    <button class="pp-back" onclick="closePP()">&#8592; Back to Korean Fortune</button>
+    <h1>Privacy Policy &amp; Terms of Service</h1>
+    <div class="pp-date">Last updated: March 2026 &middot; koreanfortune.com</div>
+    <div class="pp-section"><h2>1. Information We Collect</h2>
+    <p>Birth information, name, email address (for premium PDF delivery), and payment data processed via PayPal. We do not store credit card details. Anonymous usage data is collected by Google AdSense.</p></div>
+    <div class="pp-section"><h2>2. How We Use Your Information</h2>
+    <p>To generate your Saju reading, deliver your Premium PDF report, and process payments. We do <strong>not</strong> sell or share your personal data with third parties for marketing.</p></div>
+    <div class="pp-section"><h2>3. Google AdSense &amp; Cookies</h2>
+    <p>This site uses Google AdSense. Google may use cookies to serve personalized ads. Opt out at <a href="https://www.google.com/settings/ads" target="_blank">Google Ads Settings</a>.</p></div>
+    <div class="pp-section"><h2>4. Data Retention &amp; Your Rights</h2>
+    <p>Birth data is processed in real time and not stored. To request data deletion, email <a href="mailto:sohex7@gmail.com">sohex7@gmail.com</a>.</p></div>
+    <div class="pp-div"></div>
+    <div class="pp-section"><h2>5. Entertainment Purpose Only</h2>
+    <p>All readings are for <strong>entertainment and self-reflection purposes only</strong>. They do not constitute professional advice of any kind.</p></div>
+    <div class="pp-section"><h2>6. Refund Policy</h2>
+    <p>All sales are final once your PDF report is delivered. If you do not receive it within 48 hours, contact <a href="mailto:sohex7@gmail.com">sohex7@gmail.com</a>.</p></div>
+    <div class="pp-section"><h2>7. Limitation of Liability</h2>
+    <p>Korean Fortune is not liable for any damages arising from use of this service. Use at your own risk.</p></div>
+    <div class="pp-div"></div>
+    <p style="text-align:center;font-size:12px;opacity:.4">Korean Fortune &copy; 2026 &middot; For entertainment purposes only</p>
+  </div>
+</div>
+<div class="wrap">
+  <header>
+    <div class="hline"></div>
+    <div class="kor-sub">&#49324; &#51452; &#54036; &#51088;</div>
+    <h1>SAJU</h1>
+    <div class="tagline">Ancient Korean Cosmic Reading &middot; Four Pillars of Destiny</div>
+    <div class="elems">
+      <div class="el"><span class="el-i">&#127754;</span><span class="el-l">Water</span></div>
+      <div class="el"><span class="el-i">&#128293;</span><span class="el-l">Fire</span></div>
+      <div class="el"><span class="el-i">&#127795;</span><span class="el-l">Wood</span></div>
+      <div class="el"><span class="el-i">&#9968;&#65039;</span><span class="el-l">Earth</span></div>
+      <div class="el"><span class="el-i">&#9881;&#65039;</span><span class="el-l">Metal</span></div>
+    </div>
+  </header>
+  <div class="ad">[ Ad Space 1 &middot; Google AdSense ]</div>
+  <div class="card">
+    <div class="co tl"></div><div class="co tr"></div><div class="co bl"></div><div class="co br"></div>
+    <div class="card-title">Enter Your Cosmic Coordinates</div>
+    <div class="fg">
+      <div class="fgroup"><label>Your Name</label><input type="text" id="name" placeholder="e.g. Sarah Kim"/></div>
+      <div class="fgroup"><label>Birth City / Country</label><input type="text" id="place" placeholder="e.g. New York, USA"/></div>
+      <div class="fgroup fg-full"><label>Date &amp; Time of Birth</label>
+        <div class="brow">
+          <input type="number" id="yr" placeholder="Year" min="1920" max="2006"/>
+          <select id="mo"><option value="">Month</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select>
+          <input type="number" id="dy" placeholder="Day" min="1" max="31"/>
+          <select id="hr"><option value="">Hour (opt.)</option><option value="23">&#23376; 23-01</option><option value="1">&#19985; 01-03</option><option value="3">&#23493; 03-05</option><option value="5">&#21351; 05-07</option><option value="7">&#36776; 07-09</option><option value="9">&#24049; 09-11</option><option value="11">&#21320; 11-13</option><option value="13">&#26410; 13-15</option><option value="15">&#30003; 15-17</option><option value="17">&#37193; 17-19</option><option value="19">&#25915; 19-21</option><option value="21">&#20956; 21-23</option></select>
+        </div>
+      </div>
+      <div class="fgroup"><label>Gender</label><select id="gen"><option value="">Select</option><option value="female">Female &#9792;</option><option value="male">Male &#9794;</option></select></div>
+      <div class="fgroup"><label>Focus</label><select id="focus"><option value="general">General Destiny</option><option value="love">Love &amp; Relationships</option><option value="career">Career &amp; Wealth</option><option value="year">2026 Year Fortune</option></select></div>
+    </div>
+    <div style="margin:4px 0 8px"><label>Choose Your Reading</label></div>
+    <div class="plan-tabs">
+      <button class="plan-tab active-free" id="tabFree" onclick="selectPlan('free')">
+        <span class="pt-icon">&#127807;</span><span class="pt-name">Free Reading</span><span class="pt-price">Basic &middot; 5 categories</span>
+      </button>
+      <button class="plan-tab" id="tabPrem" onclick="selectPlan('premium')">
+        <span class="pt-icon">&#128081;</span><span class="pt-name">Premium Reading</span><span class="pt-price">$14.99 &middot; Full destiny + PDF</span>
+      </button>
+    </div>
+    <div class="prem-inc" id="premInc">
+      <ul>
+        <li><span>&#10022;</span> Deep Love &amp; Romance</li><li><span>&#10022;</span> 2026 Monthly Fortune</li>
+        <li><span>&#10022;</span> Lifetime Destiny Arc</li><li><span>&#10022;</span> Marriage Fortune &amp; Timing</li>
+        <li><span>&#10022;</span> Career &amp; Wealth Deep Dive</li><li><span>&#10022;</span> 10-Year Daewoon by Year</li>
+        <li><span>&#10022;</span> Health &amp; Longevity Report</li><li><span>&#10022;</span> PDF Report Download</li>
+      </ul>
+    </div>
+    <div class="email-row fgroup" id="emailRow">
+      <label>Your Email (PDF will be sent here)</label>
+      <input type="email" id="email" placeholder="your@email.com"/>
+    </div>
+    <button class="btn-go" id="btnGo" onclick="go()">&#10022; REVEAL MY FREE DESTINY &#10022;</button>
+    <span class="admin-trigger" onclick="openAdmin()">&#183; &#183; &#183;</span>
+  </div>
+
+  <!-- FREE RESULTS -->
+  <div class="results" id="freeResults">
+    <div class="res-hdr">
+      <div class="res-name" id="resName"></div>
+      <div class="res-meta" id="resMeta"></div>
+    </div>
+    <div class="divider"><div class="dl"></div><div class="ds">&#22235;&#26417;</div><div class="dl"></div></div>
+    <div class="pillars" id="pillars"></div>
+    <div class="ohang-block" id="ohangBlock" style="display:none">
+      <div class="block-title"><span class="bi">&#127807;</span> Five Elements Balance &middot; &#20654;&#34892; &#48ñ&#50948;</div>
+      <div id="ohangBars"></div>
+      <div class="ohang-note" id="ohangNote"></div>
+    </div>
+    <div class="block"><div class="block-title"><span class="bi">&#9775;</span> Destiny Balance</div><div class="bc" id="scoreDiv"></div></div>
+    <div class="block"><div class="block-title"><span class="bi">&#127769;</span> &#45824;&#50868; &middot; Grand Fortune</div><div class="bc" id="fDaewoon"></div></div>
+    <div class="block"><div class="block-title"><span class="bi">&#10084;&#65039;</span> &#50672;&#50528;&#50868; &middot; Love Fortune</div><div class="bc" id="fLove"></div></div>
+    <div class="block"><div class="block-title"><span class="bi">&#9889;</span> &#51649;&#50629;&#50868; &middot; Career Fortune</div><div class="bc" id="fCareer"></div></div>
+    <div class="block"><div class="block-title"><span class="bi">&#128176;</span> &#51116;&#47932;&#50868; &middot; Wealth Fortune</div><div class="bc" id="fWealth"></div></div>
+    <div class="block"><div class="block-title"><span class="bi">&#10024;</span> Lucky Elements</div><div class="lucky-grid" id="luckyGrid"></div></div>
+    <div class="blur-wrap">
+      <div class="blur-inner">
+        <div class="block pb"><div class="block-title"><span class="bi">&#128141;</span> &#44208;&#54interpreting;&#50868; &middot; Marriage Fortune</div><div class="bc"><p>Your marriage fortune reveals a significant karmic connection approaching. The ideal timing window opens when Fire and Metal energies align...</p></div></div>
+      </div>
+      <div class="blur-over"><div class="blur-lbl">&#128081; Premium Content</div><div class="blur-sub">Unlock Marriage &middot; 2026 Monthly &middot; 10-Year Daewoon &amp; more</div></div>
+    </div>
+    <div class="ad">[ Ad Space 2 &middot; Google AdSense ]</div>
+    <div class="promo" id="promoBlock">
+      <p style="font-size:15px;color:var(--mist);margin-bottom:8px;line-height:1.7">Your free reading shows the foundation.<br>Unlock the <strong style="color:var(--gold)">complete picture</strong> of your destiny.</p>
+      <div class="promo-price">$14.99</div>
+      <div class="promo-note">One-time &middot; PDF sent to your email within 24 hours</div>
+      <div class="promo-list">
+        <div class="promo-item"><span>&#10022;</span> Deep Love &amp; Romance</div><div class="promo-item"><span>&#10022;</span> 2026 Monthly Fortune</div>
+        <div class="promo-item"><span>&#10022;</span> Marriage Timing</div><div class="promo-item"><span>&#10022;</span> Career Peak Years</div>
+        <div class="promo-item"><span>&#10022;</span> 10-Year Daewoon</div><div class="promo-item"><span>&#10022;</span> Lifetime Destiny Arc</div>
+        <div class="promo-item"><span>&#10022;</span> Health Forecast</div><div class="promo-item"><span>&#10022;</span> PDF Download</div>
+      </div>
+      <div style="width:100%;max-width:360px;margin:0 auto 16px;">
+        <label style="display:block;text-align:left;margin-bottom:6px;font-size:10px;letter-spacing:.25em;color:var(--gold);opacity:.8;">YOUR EMAIL &mdash; PDF WILL BE SENT HERE</label>
+        <input type="email" id="promoEmail" placeholder="your@email.com" style="background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.35);border-radius:3px;color:var(--rice);font-family:'EB Garamond',serif;font-size:16px;padding:12px 15px;outline:none;width:100%;"/>
+        <div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:5px;text-align:left;">&#128236; Full PDF delivered within 24 hours after payment.</div>
+      </div>
+      <div class="pay-btns">
+        <div style="width:100%;max-width:320px;">
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" onsubmit="return onPPSubmit()">
+            <input type="hidden" name="cmd" value="_xclick">
+            <input type="hidden" name="business" value="sohex7@gmail.com">
+            <input type="hidden" name="item_name" id="ppName2" value="SAJU Premium Reading">
+            <input type="hidden" name="amount" value="14.99">
+            <input type="hidden" name="currency_code" value="USD">
+            <input type="hidden" name="no_shipping" value="1">
+            <input type="hidden" name="custom" id="ppCustom2" value="">
+            <button type="submit" class="btn-pp">
+              <svg width="18" height="12" viewBox="0 0 24 16" fill="white"><path d="M7.6 1C5.4 1 3.6 2.6 3.3 4.7L1 15h4.2l.6-3.8h2.4c3.2 0 5.7-2.1 6.3-5.1.6-3-1.4-5.1-4.3-5.1H7.6zm.4 3h1.8c1.1 0 1.7.6 1.4 1.9-.3 1.2-1.2 1.9-2.3 1.9H7.2L8 4zm9.5-3c-2.2 0-4 1.6-4.3 3.7l-2.3 10.3h4.2l.6-3.8h2.4c3.2 0 5.7-2.1 6.3-5.1.6-3-1.4-5.1-4.3-5.1H17.5z"/></svg>
+              Pay with PayPal &middot; $14.99
+            </button>
+          </form>
+        </div>
+        <div class="pay-div"><div class="pay-div-line"></div><span>OR</span><div class="pay-div-line"></div></div>
+        <button class="btn-stripe" onclick="window.open('https://buy.stripe.com/YOUR_STRIPE_LINK','_blank')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
+          Pay with Card (Stripe) &middot; $14.99
+        </button>
+      </div>
+      <p style="margin-top:14px;font-size:11px;opacity:.35">&#128274; Secure payment &middot; PDF delivered within 24 hours</p>
+    </div>
+  </div>
+
+  <!-- PREMIUM RESULTS -->
+  <div class="results" id="premResults">
+    <div class="res-hdr">
+      <div class="res-name" id="pResName"></div>
+      <div class="res-meta" id="pResMeta"></div>
+      <div class="prem-badge">&#128081; PREMIUM READING</div>
+    </div>
+    <div class="divider"><div class="dl"></div><div class="ds">&#22235;&#26417;&#20843;&#23383;</div><div class="dl"></div></div>
+    <div class="pillars" id="pPillars"></div>
+    <div class="ohang-block pb" id="pOhangBlock" style="display:none">
+      <div class="block-title"><span class="bi">&#127807;</span> Five Elements Balance &middot; &#20654;&#34892; &#48048;&#50948;</div>
+      <div id="pOhangBars"></div>
+      <div class="ohang-note" id="pOhangNote"></div>
+    </div>
+    <div class="block pb"><div class="block-title"><span class="bi">&#128302;</span> Core Nature &middot; &#48376;&#49457;</div><div class="bc" id="pCore"></div></div>
+    <div class="block pb"><div class="block-title"><span class="bi">&#127756;</span> Lifetime Destiny Arc &middot; &#54217;&#49373;&#50868;</div><div class="bc" id="pLife"></div></div>
+    <div class="block pb"><div class="block-title"><span class="bi">&#10084;&#65039;&#8205;&#128293;</span> Deep Love &amp; Romance &middot; &#49900;&#52789; &#50672;&#50528;&#50868;</div><div class="bc" id="pLove"></div></div>
+    <div class="block pb"><div class="block-title"><span class="bi">&#128141;</span> Marriage Fortune &middot; &#44208;&#54; &#50868;</div><div class="bc" id="pMarriage"></div></div>
+    <div class="block pb"><div class="block-title"><span class="bi">&#9889;</span> Career Path &middot; &#51649;&#50629;&#50868;</div><div class="bc" id="pCareer"></div></div>
+    <div class="block pb"><div class="block-title"><span class="bi">&#128176;</span> Wealth Fortune &middot; &#51116;&#47932;&#50868;</div><div class="bc" id="pWealth"></div></div>
+    <div class="block pb"><div class="block-title"><span class="bi">&#127807;</span> Health &amp; Longevity &middot; &#44148;&#44053;&#50868;</div><div class="bc" id="pHealth"></div></div>
+    <div class="block pb"><div class="block-title"><span class="bi">&#128197;</span> 2026 Year Fortune &middot; &#50689;&#51004;&#45824;&#49464;</div><div class="bc" id="p2026"></div><div class="month-grid" id="monthGrid"></div></div>
+    <div class="block pb"><div class="block-title"><span class="bi">&#127769;</span> 10-Year Grand Fortune &middot; &#45824;&#50868; (2025&#8211;2034)</div><div class="bc" id="pDaewoon"></div><div class="dec-grid" id="decGrid"></div></div>
+    <div class="block pb"><div class="block-title"><span class="bi">&#10024;</span> Lucky Elements</div><div class="lucky-grid" id="pLuckyGrid"></div></div>
+    <div class="block pb" style="border-color:rgba(201,168,76,.4);background:linear-gradient(145deg,rgba(201,168,76,.08),rgba(201,168,76,.02))">
+      <div class="block-title"><span class="bi">&#128257;</span> A Personal Message for You</div>
+      <div class="bc" id="pMsg" style="font-style:italic;font-size:clamp(15px,2vw,18px);line-height:2;color:var(--gold-l);"></div>
+    </div>
+    <div style="text-align:center;margin-top:24px;">
+      <button class="btn-pdf" onclick="downloadPDF()">&#11015; Download Full PDF Report</button>
+    </div>
+    <div class="ad">[ Ad Space 3 &middot; Google AdSense ]</div>
+  </div>
+
+  <div class="ad">[ Ad Space 4 &middot; Google AdSense ]</div>
+  <footer>
+    <div class="ft-han">&#49324;&#51452;&#54036;&#51088;</div>
+    <div>Korean Fortune &copy; 2026 &middot; Korean Four Pillars Cosmic Reading</div>
+    <div style="margin-top:8px;font-size:11px">
+      <a href="#" onclick="openPP();return false;" style="color:rgba(201,168,76,.5);text-decoration:none;letter-spacing:.1em;">Privacy Policy &amp; Terms</a>
+      <span style="color:rgba(255,255,255,.15);margin:0 10px">&middot;</span>
+      <a href="mailto:sohex7@gmail.com" style="color:rgba(201,168,76,.5);text-decoration:none;letter-spacing:.1em;">Contact</a>
+    </div>
+    <div style="margin-top:6px;font-size:10px;opacity:.35">For entertainment and self-reflection purposes only</div>
+  </footer>
+</div>
+<script>
+// ══════════════════════════════════════════════
+// KOREAN FORTUNE — COMPLETE JS
+// 검증: 2000/10/12 14시 = 庚辰 丙戌 癸卯 己未
+// ══════════════════════════════════════════════
+const ST=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const BR=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const STR=['Gab','Eul','Byeong','Jeong','Mu','Gi','Gyeong','Sin','Im','Gye'];
+const BRR=['Ja','Chuk','In','Myo','Jin','Sa','Oh','Mi','Sin','Yu','Sul','Hae'];
+const EL=['Wood','Wood','Fire','Fire','Earth','Earth','Metal','Metal','Water','Water'];
+const EI={Wood:'🌳',Fire:'🔥',Earth:'⛰️',Metal:'⚙️',Water:'🌊'};
+const AN=['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
+const MNS=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+// 오행 테이블
+const STEM_EL=['Wood','Wood','Fire','Fire','Earth','Earth','Metal','Metal','Water','Water'];
+const BRNCH_EL=['Water','Earth','Wood','Wood','Earth','Fire','Fire','Earth','Metal','Metal','Earth','Water'];
+
+// 떠다니는 심볼
+const sc=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥','甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const sw=document.getElementById('syms');
+if(sw){for(let i=0;i<20;i++){const s=document.createElement('div');s.className='sym';s.style.fontSize=(14+Math.random()*16)+'px';s.textContent=sc[Math.floor(Math.random()*sc.length)];s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*20+'s';s.style.animationDuration=(15+Math.random()*15)+'s';sw.appendChild(s);}}
+
+// ── 상태
+let plan='free', isAdmin=false, G={};
+
+// ── 플랜 선택
+function selectPlan(p){
+  if(isAdmin)return;
+  plan=p;
+  document.getElementById('tabFree').className='plan-tab'+(p==='free'?' active-free':'');
+  document.getElementById('tabPrem').className='plan-tab'+(p==='premium'?' active-prem':'');
+  document.getElementById('premInc').className='prem-inc'+(p==='premium'?' show':'');
+  document.getElementById('emailRow').className='email-row fgroup'+(p==='premium'?' show':'');
+  const b=document.getElementById('btnGo');
+  b.textContent=p==='premium'?'✦ PROCEED TO PAYMENT · $14.99 ✦':'✦ REVEAL MY FREE DESTINY ✦';
+  b.className='btn-go'+(p==='premium'?' prem-mode':'');
+}
+
+// ── 어드민 모달
+function openAdmin(){document.getElementById('adminModal').classList.add('show');setTimeout(()=>document.getElementById('adminPw').focus(),100);}
+function closeAdmin(){document.getElementById('adminModal').classList.remove('show');document.getElementById('adminPw').value='';}
+function checkAdmin(){
+  if(document.getElementById('adminPw').value==='saju2026'){
+    closeAdmin(); isAdmin=true; plan='admin';
+    document.getElementById('adminTag').classList.add('show');
+    document.getElementById('tabFree').className='plan-tab';
+    document.getElementById('tabPrem').className='plan-tab';
+    document.getElementById('premInc').className='prem-inc show';
+    document.getElementById('emailRow').className='email-row fgroup';
+    const b=document.getElementById('btnGo');
+    b.textContent='✦ GENERATE & DOWNLOAD PDF ✦'; b.className='btn-go admin-mode';
+  } else {
+    document.getElementById('adminPw').value='';
+    document.getElementById('adminPw').placeholder='Wrong password...';
+    setTimeout(()=>{document.getElementById('adminPw').placeholder='••••••••';},1500);
+  }
+}
+
+// ── Privacy Policy 모달
+function openPP(){document.getElementById('ppModal').classList.add('show');window.scrollTo(0,0);document.body.style.overflow='hidden';}
+function closePP(){document.getElementById('ppModal').classList.remove('show');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePP();closeAdmin();}});
+
+// ── 사주 계산 (검증완료)
+function jd(y,m,d){let y2=y,m2=m;if(m2<=2){y2--;m2+=12;}const A=Math.floor(y2/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y2+4716))+Math.floor(30.6001*(m2+1))+d+B-1524;}
+function yearSB(y,m,d){const yr=(m<2||(m==2&&d<4))?y-1:y;const si=((yr-4)%10+10)%10,bi=((yr-4)%12+12)%12;return{stem:ST[si],branch:BR[bi],sRom:STR[si],bRom:BRR[bi],el:EL[si],animal:AN[bi],si,bi};}
+const TERMS=[6,4,6,5,6,6,7,7,8,8,7,7];
+function monthSB(m,d,ysi){const bMap=[1,2,3,4,5,6,7,8,9,10,11,0],bPrev=[0,1,2,3,4,5,6,7,8,9,10,11];const bi=d>=TERMS[m-1]?bMap[m-1]:bPrev[m-1];const si=([0,2,4,6,8][ysi%5]+bi)%10;return{stem:ST[si],branch:BR[bi],sRom:STR[si],bRom:BRR[bi],el:EL[si]};}
+function daySB(y,m,d){const idx=(jd(y,m,d)+49)%60;return{stem:ST[idx%10],branch:BR[idx%12],sRom:STR[idx%10],bRom:BRR[idx%12],el:EL[idx%10],si:idx%10};}
+function hourSB(hr,dsi){let bi=hr==23||hr<1?0:hr<3?1:hr<5?2:hr<7?3:hr<9?4:hr<11?5:hr<13?6:hr<15?7:hr<17?8:hr<19?9:hr<21?10:11;const si=([0,2,4,6,8,0,2,4,6,8][dsi%10]+bi)%10;return{stem:ST[si],branch:BR[bi],sRom:STR[si],bRom:BRR[bi],el:EL[si]};}
+
+// ── 오행 계산
+function calcOhang(yp,mp,dp,hp){
+  const c={Wood:0,Fire:0,Earth:0,Metal:0,Water:0};
+  [yp,mp,dp,...(hp?[hp]:[])].forEach(p=>{
+    c[STEM_EL[ST.indexOf(p.stem)]]++;
+    c[BRNCH_EL[BR.indexOf(p.branch)]]++;
+  });
+  const total=Object.values(c).reduce((a,b)=>a+b,0);
+  return{c,total};
+}
+
+// ── 오행 렌더링
+function renderOhang(yp,mp,dp,hp,barId,noteId,blockId){
+  const{c,total}=calcOhang(yp,mp,dp,hp);
+  const cfg=[
+    {el:'Wood',ko:'목 木 Wood',color:'#4a9e6b',glow:'rgba(74,158,107,.5)'},
+    {el:'Fire',ko:'화 火 Fire',color:'#c0522a',glow:'rgba(192,82,42,.5)'},
+    {el:'Earth',ko:'토 土 Earth',color:'#b5832a',glow:'rgba(181,131,42,.5)'},
+    {el:'Metal',ko:'금 金 Metal',color:'#8a9bae',glow:'rgba(138,155,174,.5)'},
+    {el:'Water',ko:'수 水 Water',color:'#3a7fbf',glow:'rgba(58,127,191,.5)'},
+  ];
+  const html=cfg.map(x=>{
+    const cnt=c[x.el]||0, pct=total?Math.round(cnt/total*100):0;
+    return `<div class="ohang-row">
+      <div class="ohang-lbl">${x.ko}</div>
+      <div class="ohang-bar"><div class="ohang-fill" data-w="${pct}" style="background:linear-gradient(90deg,${x.color},${x.glow});box-shadow:0 0 6px ${x.glow};"></div></div>
+      <div class="ohang-pct" style="color:${x.color}">${pct}%</div>
+      <div class="ohang-cnt">${cnt}개</div>
+    </div>`;
+  }).join('');
+  document.getElementById(barId).innerHTML=html;
+  const sorted=cfg.map(x=>({...x,cnt:c[x.el]||0})).sort((a,b)=>b.cnt-a.cnt);
+  const strong=sorted[0],weak=sorted[sorted.length-1];
+  const sm={Wood:'Strong creative and growth energy. Excels in new ventures and artistic pursuits.',Fire:'Bright passion and charisma. Natural talent for visibility and influence.',Earth:'Steady and reliable. Builds lasting structures and thrives in stable environments.',Metal:'Precision and analytical clarity. High standards and drive for excellence.',Water:'Deep wisdom and intuition. Adaptability and ability to find hidden truths.'};
+  const wm={Wood:'Cultivate flexibility and openness to new beginnings.',Fire:'Embrace visibility — do not shy away from being seen.',Earth:'Build grounding routines and practical foundations.',Metal:'Balance high standards with self-compassion.',Water:'Develop deeper intuition and emotional intelligence.'};
+  document.getElementById(noteId).innerHTML=`<strong>${EI[strong.el]} Dominant: ${strong.ko}</strong> &mdash; ${sm[strong.el]}<br><span style="opacity:.7;font-size:12px">${EI[weak.el]} Weakest: ${weak.ko} &mdash; ${wm[weak.el]}</span>`;
+  document.getElementById(blockId).style.display='block';
+  setTimeout(()=>document.querySelectorAll('.ohang-fill').forEach(b=>{b.style.width=(b.dataset.w||0)+'%';}),300);
+}
+
+// ── 메인 실행
+async function go(){
+  const name=document.getElementById('name').value.trim();
+  const place=document.getElementById('place').value.trim();
+  const yr=parseInt(document.getElementById('yr').value);
+  const mo=parseInt(document.getElementById('mo').value);
+  const dy=parseInt(document.getElementById('dy').value);
+  const hr=parseInt(document.getElementById('hr').value);
+  const gen=document.getElementById('gen').value;
+  const focus=document.getElementById('focus').value;
+  const email=document.getElementById('email').value.trim();
+  if(!name||!yr||!mo||!dy){alert('Please fill in your name, birth year, month, and day.');return;}
+  const yp=yearSB(yr,mo,dy), mp=monthSB(mo,dy,yp.si), dp=daySB(yr,mo,dy);
+  const hp=isNaN(hr)?null:hourSB(hr,dp.si);
+  G={name,place,yr,mo,dy,hr,gen,focus,email,yp,mp,dp,hp};
+
+  // 어드민: 프리미엄 생성 후 자동 PDF
+  if(isAdmin){
+    showLoad('Generating premium reading...');
+    try{const r=await callAI(buildPremPrompt(),4000);hideLoad();renderPremium(r);setTimeout(downloadPDF,1500);}
+    catch(e){hideLoad();renderPremium(demoP());setTimeout(downloadPDF,1500);}
+    return;
+  }
+  // 프리미엄: PayPal 결제
+  if(plan==='premium'){
+    if(!email||!email.includes('@')){alert('Please enter your email address first.');document.getElementById('email').focus();return;}
+    document.getElementById('ppName').value='SAJU Premium Reading - '+name;
+    document.getElementById('ppCustom').value=name+'|'+email+'|Born:'+yr+'/'+mo+'/'+dy+(isNaN(hr)?'':' '+hr+'h');
+    document.getElementById('ppHidden').submit();
+    return;
+  }
+  // 무료
+  showLoad('Calculating your Four Pillars...');
+  try{const r=await callAI(buildFreePrompt(),1000);hideLoad();renderFree(r);}
+  catch(e){hideLoad();renderFree(demoF());}
+}
+
+// ── API
+async function callAI(prompt,maxTok=1000){
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTok,
+      system:'You are a master Korean Saju reader. Respond ONLY in valid JSON. No markdown, no preamble.',
+      messages:[{role:'user',content:prompt}]})});
+  const d=await res.json();
+  return JSON.parse(d.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim());
+}
+
+// ── 프롬프트
+function buildFreePrompt(){
+  const g=G;
+  return `Saju reading for ${g.name}, Born:${g.yr}/${g.mo}/${g.dy}${!isNaN(g.hr)?' hr'+g.hr:''}, ${g.place||''}, ${g.gen||''}
+Year:${g.yp.stem}${g.yp.branch}(${g.yp.el}/Year of ${g.yp.animal}) Month:${g.mp.stem}${g.mp.branch}(${g.mp.el}) Day:${g.dp.stem}${g.dp.branch}(${g.dp.el})${g.hp?' Hour:'+g.hp.stem+g.hp.branch:''}
+Return JSON:{"daymaster":"X Element - poetic name","personality":"2 vivid sentences","daewoon":"2 sentences","love":"2 sentences","career":"2 sentences","wealth":"2 sentences","advice":"1 powerful wisdom","lucky_color":"word","lucky_number":"digit","lucky_direction":"direction","lucky_season":"season","lucky_stone":"gemstone","lucky_time":"time","scores":{"love":0,"career":0,"wealth":0,"health":0,"luck":0}}`;
+}
+function buildPremPrompt(){
+  const g=G;
+  return `PREMIUM Saju reading ($14.99) for ${g.name}. Detailed, personal, poetic — 4-6 sentences per section.
+Born:${g.yr}/${g.mo}/${g.dy}${!isNaN(g.hr)?' hr'+g.hr:''} in ${g.place||'unknown'}, Gender:${g.gen||'unspecified'}
+Year:${g.yp.stem}${g.yp.branch}(${g.yp.el}/Year of ${g.yp.animal}) Month:${g.mp.stem}${g.mp.branch}(${g.mp.el}) DayMaster:${g.dp.stem}${g.dp.branch}(${g.dp.el})${g.hp?' Hour:'+g.hp.stem+g.hp.branch:''}
+Return ONLY valid JSON:
+{"daymaster":"Element — Title","core_nature":"4-6 sentences","lifetime":"4-6 sentences","love_deep":"4-6 sentences","marriage":"4-6 sentences","career_deep":"4-6 sentences","wealth_deep":"4-6 sentences","health":"3-4 sentences","yearly_2026":"2-3 sentences","monthly_2026":[{"month":"January","rating":3,"text":"2-3 sentences"},{"month":"February","rating":4,"text":"2-3 sentences"},{"month":"March","rating":5,"text":"2-3 sentences"},{"month":"April","rating":4,"text":"2-3 sentences"},{"month":"May","rating":3,"text":"2-3 sentences"},{"month":"June","rating":4,"text":"2-3 sentences"},{"month":"July","rating":5,"text":"2-3 sentences"},{"month":"August","rating":3,"text":"2-3 sentences"},{"month":"September","rating":4,"text":"2-3 sentences"},{"month":"October","rating":5,"text":"2-3 sentences"},{"month":"November","rating":3,"text":"2-3 sentences"},{"month":"December","rating":4,"text":"2-3 sentences"}],"decade":[{"years":"2025-2026","energy":"Metal","text":"3 sentences"},{"years":"2027-2028","energy":"Water","text":"3 sentences"},{"years":"2029-2030","energy":"Wood","text":"3 sentences"},{"years":"2031-2032","energy":"Fire","text":"3 sentences"},{"years":"2033-2034","energy":"Earth","text":"3 sentences"}],"final_message":"3-4 personal sentences","lucky_color":"word","lucky_number":"digit","lucky_direction":"direction","lucky_season":"season","lucky_stone":"gemstone","lucky_time":"time","scores":{"love":0,"career":0,"wealth":0,"health":0,"luck":0}}`;
+}
+
+// ── 헬퍼
+function S(id,html){const e=document.getElementById(id);if(e)e.innerHTML=html;}
+function showLoad(msg){document.getElementById('loadSub').textContent=msg||'';document.getElementById('loading').classList.add('show');}
+function hideLoad(){document.getElementById('loading').classList.remove('show');}
+function animBars(){document.querySelectorAll('.sc-fill').forEach(b=>{b.style.width=(b.dataset.w||0)+'%';});}
+function splitP(t){if(!t)return'';const s=t.match(/[^.!?]+[.!?]+/g)||[t];const c=[];for(let i=0;i<s.length;i+=3)c.push(s.slice(i,i+3).join(' ').trim());return c.map(x=>`<p>${x}</p>`).join('');}
+function renderPillars(id,yp,mp,dp,hp){
+  const ps=[{t:'Year Pillar',...yp},{t:'Month Pillar',...mp},{t:'Day Pillar · Self',...dp}];
+  if(hp)ps.push({t:'Hour Pillar',...hp});
+  S(id,ps.map(p=>`<div class="pillar"><div class="p-type">${p.t}</div><div class="p-han">${p.stem||'?'}</div><div class="p-han" style="font-size:20px;color:var(--mist)">${p.branch||'?'}</div><div class="p-rom">${(p.sRom||'')+(p.bRom||'')}</div><div class="p-el">${EI[p.el]||''} ${p.el||''}</div></div>`).join(''));
+}
+function renderLucky(id,r){
+  S(id,[{i:'🎨',l:'Color',v:r.lucky_color},{i:'🔢',l:'Number',v:r.lucky_number},{i:'🧭',l:'Direction',v:r.lucky_direction},{i:'🌸',l:'Season',v:r.lucky_season},{i:'💎',l:'Stone',v:r.lucky_stone},{i:'⏰',l:'Peak Hour',v:r.lucky_time}].map(x=>`<div class="lucky-item"><div class="li-icon">${x.i}</div><div class="li-lbl">${x.l}</div><div class="li-val">${x.v||'—'}</div></div>`).join(''));
+}
+
+// ── 무료 렌더
+function renderFree(r){
+  S('resName',G.name+"'s Cosmic Reading");
+  S('resMeta',`Born ${MNS[G.mo]||''} ${G.dy}, ${G.yr}${G.place?' · '+G.place:''} · Year of the ${G.yp.animal} · ${r.daymaster}`);
+  renderPillars('pillars',G.yp,G.mp,G.dp,G.hp);
+  renderOhang(G.yp,G.mp,G.dp,G.hp,'ohangBars','ohangNote','ohangBlock');
+  const sc=r.scores||{love:75,career:80,wealth:60,health:70,luck:78};
+  S('scoreDiv',`<div style="margin-bottom:10px;font-style:italic;opacity:.7;font-size:14px">${r.personality||''}</div><div style="margin-top:14px">${Object.entries(sc).map(([k,v])=>`<div class="sc-row"><div class="sc-lbl">${k.charAt(0).toUpperCase()+k.slice(1)}</div><div class="sc-bar"><div class="sc-fill" data-w="${v}"></div></div><div class="sc-num">${v}</div></div>`).join('')}</div>`);
+  S('fDaewoon',`<p>${r.daewoon||''}</p>`);
+  S('fLove',`<p>${r.love||''}</p>`);
+  S('fCareer',`<p>${r.career||''}</p>`);
+  S('fWealth',`<p>${r.wealth||''}</p>`);
+  renderLucky('luckyGrid',r);
+  document.getElementById('freeResults').className='results show';
+  document.getElementById('freeResults').scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(animBars,400);
+}
+
+// ── 프리미엄 렌더
+function renderPremium(r){
+  S('pResName',G.name+"'s Premium Cosmic Reading");
+  S('pResMeta',`Born ${MNS[G.mo]||''} ${G.dy}, ${G.yr}${G.place?' · '+G.place:''} · Year of the ${G.yp.animal} · ${r.daymaster}`);
+  renderPillars('pPillars',G.yp,G.mp,G.dp,G.hp);
+  renderOhang(G.yp,G.mp,G.dp,G.hp,'pOhangBars','pOhangNote','pOhangBlock');
+  S('pCore',splitP(r.core_nature||r.lifetime||''));
+  S('pLife',splitP(r.lifetime||''));
+  S('pLove',splitP(r.love_deep||''));
+  S('pMarriage',splitP(r.marriage||''));
+  S('pCareer',splitP(r.career_deep||''));
+  S('pWealth',splitP(r.wealth_deep||''));
+  S('pHealth',splitP(r.health||''));
+  S('p2026',`<p style="margin-bottom:16px;font-size:16px;line-height:1.9">${r.yearly_2026||''}</p>`);
+  if(r.monthly_2026)S('monthGrid',r.monthly_2026.map(m=>`<div class="month-card"><div class="mc-mo">${m.month.toUpperCase()}</div><div class="mc-stars">${[1,2,3,4,5].map(n=>`<span class="mc-star${n<=m.rating?' on':''}">★</span>`).join('')}</div><div class="mc-txt">${m.text}</div></div>`).join(''));
+  S('pDaewoon','<p style="margin-bottom:16px;font-size:15px;line-height:1.9;opacity:.8">Your destiny unfolds in 10-year grand cycles — 대운 (Daewoon). Each cycle activates a different elemental energy, opening and closing chapters of your life.</p>');
+  if(r.decade)S('decGrid',r.decade.map(d=>`<div class="dec-card"><div class="dc-yr">${d.years}${d.energy?' · '+d.energy:''}</div><div class="dc-txt">${d.text}</div></div>`).join(''));
+  if(r.final_message)S('pMsg',splitP(r.final_message));
+  renderLucky('pLuckyGrid',r);
+  document.getElementById('premResults').className='results show';
+  document.getElementById('premResults').scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(animBars,400);
+}
+
+// ── PayPal 인라인 결제 폼
+function onPPSubmit(){
+  const email=document.getElementById('promoEmail')?.value?.trim()||'';
+  if(!email||!email.includes('@')){alert('Please enter your email address!');return false;}
+  document.getElementById('ppName2').value='SAJU Premium Reading - '+(G.name||'Customer');
+  document.getElementById('ppCustom2').value=(G.name||'')+'|'+email+'|Born:'+(G.yr||'')+'/'+(G.mo||'')+'/'+(G.dy||'');
+  setTimeout(()=>{
+    const pb=document.getElementById('promoBlock');
+    if(pb)pb.innerHTML=`<div style="padding:24px;text-align:center"><div style="font-size:36px;margin-bottom:12px">✅</div><div style="font-family:'Cinzel Decorative',serif;font-size:14px;letter-spacing:.15em;color:var(--gold);margin-bottom:10px">PAYMENT INITIATED</div><p style="color:var(--mist);font-size:14px;line-height:1.7">Complete payment in the PayPal window.<br>PDF will be sent to <strong style="color:var(--gold-l)">${email}</strong><br>within 24 hours.</p><p style="margin-top:12px;font-size:11px;opacity:.4">Questions? sohex7@gmail.com</p></div>`;
+  },500);
+  return true;
+}
+
+// ── PDF 다운로드
+function downloadPDF(){
+  try{
+    const{jsPDF}=window.jspdf;
+    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const W=210,pad=20,cW=170;let y=pad;
+    const C={bg:[255,255,255],title:[100,55,15],head:[80,45,10],accent:[140,85,25],body:[40,35,30],sub:[90,80,70],light:[130,115,100],div:[200,185,165],hbg:[245,238,225],sbg:[250,247,242]};
+    const addT=(txt,fs=10.5,bold=false,col=C.body,indent=0)=>{
+      if(!txt||!txt.trim())return;
+      doc.setFontSize(fs);doc.setTextColor(...col);doc.setFont('helvetica',bold?'bold':'normal');
+      const lines=doc.splitTextToSize(String(txt).trim(),cW-indent);
+      if(y+lines.length*(fs*0.42)+2>278){doc.addPage();doc.setFillColor(...C.bg);doc.rect(0,0,W,297,'F');y=pad;}
+      doc.text(lines,pad+indent,y);y+=lines.length*(fs*0.42)+3;
+    };
+    const hr=()=>{doc.setDrawColor(...C.div);doc.setLineWidth(.3);doc.line(pad,y,W-pad,y);y+=5;};
+    const sec=(title)=>{if(y>260){doc.addPage();doc.setFillColor(...C.bg);doc.rect(0,0,W,297,'F');y=pad;}doc.setFillColor(...C.sbg);doc.roundedRect(pad-3,y-4,cW+6,11,1,1,'F');doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(...C.head);doc.text(title,pad,y+3);y+=12;};
+    // 배경
+    doc.setFillColor(...C.bg);doc.rect(0,0,W,297,'F');
+    // 헤더
+    doc.setFillColor(...C.hbg);doc.rect(0,0,W,40,'F');
+    doc.setFillColor(...C.accent);doc.rect(0,0,W,2,'F');
+    y=13;doc.setFontSize(22);doc.setFont('helvetica','bold');doc.setTextColor(...C.title);
+    doc.text('KOREAN FORTUNE',W/2,y,{align:'center'});y+=8;
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(...C.sub);
+    doc.text('Premium Saju Reading  ·  Four Pillars of Destiny',W/2,y,{align:'center'});
+    doc.setFillColor(...C.accent);doc.rect(0,38,W,1.5,'F');y=48;
+    // 기본정보
+    doc.setFillColor(250,245,235);doc.roundedRect(pad-3,y-4,cW+6,24,2,2,'F');
+    doc.setDrawColor(...C.div);doc.setLineWidth(.5);doc.roundedRect(pad-3,y-4,cW+6,24,2,2,'S');
+    doc.setFontSize(13);doc.setFont('helvetica','bold');doc.setTextColor(...C.accent);doc.text(G.name||'',pad+2,y+4);
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(...C.sub);
+    doc.text(`Born  ${G.yr}/${String(G.mo).padStart(2,'0')}/${String(G.dy).padStart(2,'0')}${isNaN(G.hr)?'':'  at '+G.hr+':00'}${G.place?'  ·  '+G.place:''}`,pad+2,y+10);
+    doc.setFontSize(10);doc.setTextColor(...C.light);
+    doc.text(`${G.yp.stem}${G.yp.branch}  ${G.mp.stem}${G.mp.branch}  ${G.dp.stem}${G.dp.branch}${G.hp?'  '+G.hp.stem+G.hp.branch:''}   ·   Year of the ${G.yp.animal}`,pad+2,y+17);
+    y+=30;hr();
+    // 섹션들
+    [['CORE NATURE','pCore'],['LIFETIME DESTINY','pLife'],['DEEP LOVE & ROMANCE','pLove'],['MARRIAGE FORTUNE','pMarriage'],['CAREER PATH','pCareer'],['WEALTH FORTUNE','pWealth'],['HEALTH & LONGEVITY','pHealth']].forEach(([t,id])=>{
+      const el=document.getElementById(id);if(!el||!el.innerText.trim())return;
+      sec(t);addT(el.innerText.trim(),10.5,false,C.body,2);y+=3;
+    });
+    // 오행
+    hr();sec('FIVE ELEMENTS BALANCE · 오행 비율');
+    const note=document.getElementById('pOhangNote')||document.getElementById('ohangNote');
+    if(note)addT(note.innerText.trim(),10,false,C.body,2);y+=3;
+    // 2026
+    hr();sec('2026 YEAR FORTUNE · 올해운세');
+    const y26=document.getElementById('p2026');if(y26)addT(y26.innerText.trim(),10.5,false,C.body,2);y+=2;
+    document.querySelectorAll('.month-card').forEach(mc=>{
+      const m=mc.querySelector('.mc-mo')?.textContent||'',t=mc.querySelector('.mc-txt')?.textContent||'';
+      const stars=mc.querySelectorAll('.mc-star.on').length;
+      addT(`${m}  ${'★'.repeat(stars)}${'☆'.repeat(5-stars)}  ${t}`,9,false,C.body,0);
+    });
+    // 대운
+    y+=3;hr();sec('10-YEAR GRAND FORTUNE · 대운');
+    document.querySelectorAll('.dec-card').forEach(dc=>{
+      addT(`${dc.querySelector('.dc-yr')?.textContent||''}: ${dc.querySelector('.dc-txt')?.textContent||''}`,9,false,C.body,0);
+    });
+    // 개인 메시지
+    y+=3;hr();
+    const fm=document.getElementById('pMsg');
+    if(fm&&fm.innerText.trim()){
+      const lines=doc.splitTextToSize(fm.innerText.trim(),cW-8);
+      const bh=lines.length*4.8+14;
+      if(y+bh>278){doc.addPage();doc.setFillColor(...C.bg);doc.rect(0,0,W,297,'F');y=pad;}
+      doc.setFillColor(250,244,230);doc.roundedRect(pad-3,y-4,cW+6,bh,2,2,'F');
+      doc.setDrawColor(...C.accent);doc.setLineWidth(.8);doc.line(pad-3,y-4,pad-3,y-4+bh);
+      doc.setFontSize(9.5);doc.setFont('helvetica','bold');doc.setTextColor(...C.accent);doc.text('A Personal Message',pad+2,y+3);y+=8;
+      doc.setFontSize(10);doc.setFont('helvetica','italic');doc.setTextColor(...C.body);doc.text(lines,pad+2,y);y+=bh-6;
+    }
+    // 행운
+    y+=3;hr();sec('LUCKY ELEMENTS');
+    document.querySelectorAll('#pLuckyGrid .lucky-item').forEach(item=>{
+      addT(`${item.querySelector('.li-lbl')?.textContent||''}: ${item.querySelector('.li-val')?.textContent||''}`,9,false,C.body,0);
+    });
+    // 푸터
+    const tp=doc.internal.getNumberOfPages();
+    for(let p=1;p<=tp;p++){
+      doc.setPage(p);
+      doc.setFillColor(...C.hbg);doc.rect(0,288,W,9,'F');
+      doc.setFillColor(...C.accent);doc.rect(0,288,W,.8,'F');
+      doc.setFontSize(7.5);doc.setFont('helvetica','normal');doc.setTextColor(...C.light);
+      doc.text('Korean Fortune © 2026  ·  koreanfortune.com  ·  For entertainment purposes only',W/2,293,{align:'center'});
+      doc.text(`${p} / ${tp}`,W-pad,293,{align:'right'});
+    }
+    doc.save(`KoreanFortune_${G.name.replace(/\s+/g,'_')}_${G.yr}${String(G.mo).padStart(2,'0')}${String(G.dy).padStart(2,'0')}.pdf`);
+  }catch(e){alert('PDF error: '+e.message);console.error(e);}
+}
+
+// ── 데모 데이터
+function demoF(){return{daymaster:"Byeong Fire — The Blazing Sun",personality:"You carry warmth that draws people to you. Your spirit is bold and expressive — the room changes when you enter.",daewoon:"You are entering a Wood cycle that feeds your Fire. Creative expansion and new beginnings are strongly favored.",love:"Your chart shows a passionate approach to love. A significant encounter is indicated within 18 months.",career:"Your Fire daymaster thrives in creative or leadership roles — media, entrepreneurship, and education align.",wealth:"Wealth comes in dramatic bursts. A financial turning point is approaching.",advice:"Stop dimming your light for others' comfort — your greatest breakthroughs come when you dare to be seen.",lucky_color:"Crimson",lucky_number:"7",lucky_direction:"South",lucky_season:"Spring",lucky_stone:"Ruby",lucky_time:"Noon",scores:{love:78,career:88,wealth:65,health:72,luck:82}};}
+function demoP(){return{daymaster:"癸 Water — The Deep Mountain Spring",core_nature:"You are a 癸Water daymaster — quiet on the surface, with extraordinary depth beneath. Your sensitivity is your superpower, though you have sometimes experienced it as a burden. You observe everything, forget nothing, and feel emotional undercurrents before anyone else does. The challenge of your nature is learning to trust your own perceptions.",lifetime:"Your life unfolds in three chapters: early searching and identity formation, a powerful middle chapter where your depth finds expression, and a later chapter of wisdom and quiet influence. You are not built for quick results — you are built for depth.",love_deep:"In love you are completely devoted once you choose someone, but the choosing takes time because you feel everything so acutely. You need a partner who is curious about you, patient enough to wait for your trust, and secure enough not to be threatened by your depth.",marriage:"Marriage is written into your chart with quiet permanence. Your destined partnership will likely arrive between your late 20s and mid-30s, with a person whose steadiness complements your depth. Your ideal partner carries strong Wood or Earth energy.",career_deep:"Your career destiny points toward work requiring depth and nuance — research, psychology, writing, strategy, medicine, and finance align with your nature. Your peak career windows cluster around ages 32-38 and 44-50.",wealth_deep:"癸Water builds wealth through expertise and reputation rather than hustle. Your best financial instrument is your knowledge. Real estate and long-term investments suit your patient nature far better than volatile opportunities.",health:"Your constitution makes the kidneys, lower back, and nervous system your primary areas of vulnerability. Prioritize sleep as non-negotiable — your system regenerates primarily through deep rest.",yearly_2026:"2026 is a year of meaningful emergence — the things you have been quietly building begin to become visible to the world. Career and creative work are dominant themes.",monthly_2026:[{month:"January",rating:3,text:"A quiet opening — use this time for reflection. Plans made in stillness will serve you better."},{month:"February",rating:4,text:"Relational energy warms. Someone enters your life or an existing connection deepens meaningfully."},{month:"March",rating:5,text:"Your first peak month — professional visibility increases and your contributions receive recognition."},{month:"April",rating:4,text:"Financial clarity arrives. A pending decision becomes clear. Trust your analysis."},{month:"May",rating:3,text:"Energy dips slightly — your body requests restoration. Honor this with rest and nourishment."},{month:"June",rating:4,text:"Creative energy surges. A collaborative project carries unusual momentum."},{month:"July",rating:5,text:"Your highest romantic potential of the year. A meaningful encounter is strongly indicated."},{month:"August",rating:3,text:"An introspective month — old emotional material surfaces for processing and release."},{month:"September",rating:4,text:"Clarity returns. A professional direction crystallizes and forward momentum resumes."},{month:"October",rating:5,text:"Harvest season — the year's efforts produce tangible results. Celebrate genuinely."},{month:"November",rating:3,text:"Social demands peak; be selective with energy. Deep one-on-one connections nourish most."},{month:"December",rating:4,text:"A warm and meaningful close. Gratitude flows and relationships deepen naturally."}],decade:[{years:"2025-2026",energy:"Metal",text:"Metal feeds Water — your abilities are enhanced and recognition increases. New opportunities arrive from unexpected directions. Claim your expertise publicly."},{years:"2027-2028",energy:"Water",text:"Water amplifies Water — intuition and emotional intelligence reach their peak. Creative and intellectual work flourishes. Your period of deepest self-knowledge."},{years:"2029-2030",energy:"Wood",text:"Water nourishes Wood — accumulated wisdom produces visible results. Career achievements, financial growth, and relationship deepening all characterize this expansive period."},{years:"2031-2032",energy:"Fire",text:"Fire and Water create tension — this cycle brings challenge alongside opportunity. Your depth of character is your greatest asset. Emerge significantly stronger."},{years:"2033-2034",energy:"Earth",text:"Earth consolidation — a period of lasting foundation-building. Family, property, and deep professional commitments are defining themes."}],final_message:"You came into this world with more depth than most environments were equipped to hold. The life your chart describes is one of quiet but lasting impact. Trust the depth. Trust the slowness. Trust that what you are building — carefully, with your whole self — is exactly what the world needs.",lucky_color:"Navy Blue",lucky_number:"6",lucky_direction:"North",lucky_season:"Autumn",lucky_stone:"Sapphire",lucky_time:"Evening",scores:{love:82,career:85,wealth:72,health:70,luck:80}};}
+</script>
+</body>
+</html>
