@@ -13,9 +13,7 @@ export default async function handler(req, res) {
       model: model || "claude-haiku-4-5-20251001",
       max_tokens: max_tokens || 1000,
       system: system || "You are a master Korean Saju reader. Respond ONLY in valid JSON.",
-      messages: [
-        { role: "user", content: prompt }
-      ]
+      messages: messages
     })
   });
 
