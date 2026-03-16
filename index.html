@@ -519,7 +519,7 @@ async function go(){
   // 어드민: 프리미엄 생성 후 자동 PDF
   if(isAdmin){
     showLoad('Generating premium reading...');
-    try{const r=await callAI(buildPremPrompt(),4000);hideLoad();renderPremium(r);setTimeout(downloadPDF,1500);}
+    try{const r=await callAI(buildPremPrompt(),6000,'claude-sonnet-4-20250514');hideLoad();renderPremium(r);setTimeout(downloadPDF,1500);}
     catch(e){hideLoad();renderPremium(demoP());setTimeout(downloadPDF,1500);}
     return;
   }
@@ -533,12 +533,12 @@ async function go(){
   }
   // 무료
   showLoad('Calculating your Four Pillars...');
-  try{const r=await callAI(buildFreePrompt(),1000);hideLoad();renderFree(r);}
+  try{const r=await callAI(buildFreePrompt(),1200,'claude-haiku-4-5-20251001');hideLoad();renderFree(r);}
   catch(e){hideLoad();renderFree(demoF());}
 }
 
 // ── API
-async function callAI(prompt,maxTok=1000){
+async function callAI(prompt,maxTok=1000,model='claude-haiku-4-5-20251001'){
   const res=await fetch('/api/saju',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTok,
       system:'You are a master Korean Saju reader. Respond ONLY in valid JSON. No markdown, no preamble.',
