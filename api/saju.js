@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
 
-  const { prompt, model, max_tokens, system } = req.body;
+  const { messages, model, max_tokens, system } = req.body;
 
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
