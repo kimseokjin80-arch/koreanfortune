@@ -254,7 +254,6 @@ footer{text-align:center;padding:36px 0;border-top:1px solid rgba(201,168,76,.1)
         </div>
       </div>
       <div class="fgroup"><label>Gender</label><select id="gen"><option value="">Select</option><option value="female">Female &#9792;</option><option value="male">Male &#9794;</option></select></div>
-      <div class="fgroup"><label>Focus</label><select id="focus"><option value="general">General Destiny</option><option value="love">Love &amp; Relationships</option><option value="career">Career &amp; Wealth</option><option value="year">2026 Year Fortune</option></select></div>
     </div>
     <div style="margin:4px 0 8px"><label>Choose Your Reading</label></div>
     <div class="plan-tabs">
@@ -510,7 +509,7 @@ async function go(){
   const dy=parseInt(document.getElementById('dy').value);
   const hr=parseInt(document.getElementById('hr').value);
   const gen=document.getElementById('gen').value;
-  const focus=document.getElementById('focus').value;
+  const focus='general';
   const email=document.getElementById('email').value.trim();
   if(!name||!yr||!mo||!dy){alert('Please fill in your name, birth year, month, and day.');return;}
   const yp=yearSB(yr,mo,dy), mp=monthSB(mo,dy,yp.si), dp=daySB(yr,mo,dy);
