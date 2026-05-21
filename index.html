@@ -900,17 +900,37 @@ function downloadPDF(){
     doc.setFontSize(10);doc.setTextColor(...C.light);
     doc.text(`${G.yp.stem}${G.yp.branch}  ${G.mp.stem}${G.mp.branch}  ${G.dp.stem}${G.dp.branch}${G.hp?'  '+G.hp.stem+G.hp.branch:''}   ·   Year of the ${G.yp.animal}`,pad+2,y+17);
     y+=30;hr();
-    // 섹션들
-    [['CORE NATURE','pCore'],['LIFETIME DESTINY','pLife'],['DEEP LOVE & ROMANCE','pLove'],['MARRIAGE FORTUNE','pMarriage'],['CAREER PATH','pCareer'],['WEALTH FORTUNE','pWealth'],['HEALTH & LONGEVITY','pHealth']].forEach(([t,id])=>{
-      const el=document.getElementById(id);if(!el||!el.innerText.trim())return;
-      sec(t);addT(el.innerText.trim(),10.5,false,C.body,2);y+=3;
-    });
+    
+    // 새 12챕터 구조에서 텍스트 추출
+    const chapData=[
+      ['CHAPTER 1 · FOUR PILLARS CHART', '.block.pb:nth-of-type(1)'],
+      ['CHAPTER 2 · DAY MASTER ANALYSIS', '.block.pb:nth-of-type(2)'],
+      ['CHAPTER 3 · TEN STARS ANALYSIS', '.block.pb:nth-of-type(3)'],
+      ['CHAPTER 4 · TWELVE PHASES', '.block.pb:nth-of-type(4)'],
+      ['CHAPTER 5 · SPECIAL STARS', '.block.pb:nth-of-type(5)'],
+      ['CHAPTER 7 · WEALTH FORTUNE', '.block.pb:nth-of-type(6)'],
+      ['CHAPTER 8 · LOVE & MARRIAGE', '.block.pb:nth-of-type(7)'],
+      ['CHAPTER 9 · CAREER FORTUNE', '.block.pb:nth-of-type(8)'],
+      ['CHAPTER 10 · HEALTH FORTUNE', '.block.pb:nth-of-type(9)'],
+    ];
+    const premResults=document.getElementById('premResults');
+    if(premResults){
+      const blocks=premResults.querySelectorAll('.block.pb');
+      blocks.forEach((block,i)=>{
+        if(i>8)return;
+        const titles=['CHAPTER 1 · FOUR PILLARS CHART','CHAPTER 2 · DAY MASTER ANALYSIS','CHAPTER 3 · TEN STARS ANALYSIS','CHAPTER 4 · TWELVE PHASES','CHAPTER 5 · SPECIAL STARS','CHAPTER 7 · WEALTH FORTUNE','CHAPTER 8 · LOVE & MARRIAGE','CHAPTER 9 · CAREER FORTUNE','CHAPTER 10 · HEALTH FORTUNE'];
+        const txt=block.innerText.trim();
+        if(!txt)return;
+        sec(titles[i]||'SECTION '+(i+1));
+        addT(txt,10,false,C.body,2);y+=3;
+      });
+    }
     // 오행
-    hr();sec('FIVE ELEMENTS BALANCE · 오행 비율');
+    hr();sec('FIVE ELEMENTS BALANCE');
     const note=document.getElementById('pOhangNote')||document.getElementById('ohangNote');
     if(note)addT(note.innerText.trim(),10,false,C.body,2);y+=3;
     // 2026
-    hr();sec('2026 YEAR FORTUNE · 올해운세');
+    hr();sec('2026 YEAR FORTUNE');
     const y26=document.getElementById('p2026');if(y26)addT(y26.innerText.trim(),10.5,false,C.body,2);y+=2;
     document.querySelectorAll('.month-card').forEach(mc=>{
       const m=mc.querySelector('.mc-mo')?.textContent||'',t=mc.querySelector('.mc-txt')?.textContent||'';
@@ -918,7 +938,7 @@ function downloadPDF(){
       addT(`${m}  ${'★'.repeat(stars)}${'☆'.repeat(5-stars)}  ${t}`,9,false,C.body,0);
     });
     // 대운
-    y+=3;hr();sec('10-YEAR GRAND FORTUNE · 대운');
+    y+=3;hr();sec('GRAND FORTUNE CYCLES');
     document.querySelectorAll('.dec-card').forEach(dc=>{
       addT(`${dc.querySelector('.dc-yr')?.textContent||''}: ${dc.querySelector('.dc-txt')?.textContent||''}`,9,false,C.body,0);
     });
