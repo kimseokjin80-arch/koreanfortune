@@ -842,7 +842,16 @@ function renderPremium(r){
   document.getElementById('premResults').scrollIntoView({behavior:'smooth',block:'start'});
   setTimeout(animBars,400);
 }
-
+// ── 결제 성공 안내
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('paid') === 'success'){
+    setTimeout(()=>{
+      alert('✦ Payment successful!\n\nCheck your email — your Premium SAJU Reading has been sent.\n\nIf you don\'t see it within a few minutes, check your spam folder or contact sohex7@gmail.com');
+    }, 800);
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+})();
 // ── PayPal 인라인 결제 폼
 function onPPSubmit(){
   const email=document.getElementById('promoEmail')?.value?.trim()||'';
