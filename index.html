@@ -519,7 +519,7 @@ async function go(){
   // 어드민: 프리미엄 생성 후 자동 PDF
   if(isAdmin){
     showLoad('Generating premium reading...');
-    try{const r=await callAI(buildPremPrompt(),6000,'claude-sonnet-4-20250514');hideLoad();renderPremium(r);setTimeout(downloadPDF,1500);}
+    try{const r=await callAI(buildPremPrompt(),8000,'claude-sonnet-4-20250514');hideLoad();renderPremium(r);setTimeout(downloadPDF,1500);}
     catch(e){hideLoad();renderPremium(demoP());setTimeout(downloadPDF,1500);}
     return;
   }
@@ -556,11 +556,126 @@ Return JSON:{"daymaster":"X Element - poetic name","personality":"2 vivid senten
 }
 function buildPremPrompt(){
   const g=G;
-  return `PREMIUM Saju reading ($14.99) for ${g.name}. Detailed, personal, poetic — 4-6 sentences per section.
-Born:${g.yr}/${g.mo}/${g.dy}${!isNaN(g.hr)?' hr'+g.hr:''} in ${g.place||'unknown'}, Gender:${g.gen||'unspecified'}
-Year:${g.yp.stem}${g.yp.branch}(${g.yp.el}/Year of ${g.yp.animal}) Month:${g.mp.stem}${g.mp.branch}(${g.mp.el}) DayMaster:${g.dp.stem}${g.dp.branch}(${g.dp.el})${g.hp?' Hour:'+g.hp.stem+g.hp.branch:''}
-Return ONLY valid JSON:
-{"daymaster":"Element — Title","core_nature":"4-6 sentences","lifetime":"4-6 sentences","love_deep":"4-6 sentences","marriage":"4-6 sentences","career_deep":"4-6 sentences","wealth_deep":"4-6 sentences","health":"3-4 sentences","yearly_2026":"2-3 sentences","monthly_2026":[{"month":"January","rating":3,"text":"2-3 sentences"},{"month":"February","rating":4,"text":"2-3 sentences"},{"month":"March","rating":5,"text":"2-3 sentences"},{"month":"April","rating":4,"text":"2-3 sentences"},{"month":"May","rating":3,"text":"2-3 sentences"},{"month":"June","rating":4,"text":"2-3 sentences"},{"month":"July","rating":5,"text":"2-3 sentences"},{"month":"August","rating":3,"text":"2-3 sentences"},{"month":"September","rating":4,"text":"2-3 sentences"},{"month":"October","rating":5,"text":"2-3 sentences"},{"month":"November","rating":3,"text":"2-3 sentences"},{"month":"December","rating":4,"text":"2-3 sentences"}],"decade":[{"years":"2025-2026","energy":"Metal","text":"3 sentences"},{"years":"2027-2028","energy":"Water","text":"3 sentences"},{"years":"2029-2030","energy":"Wood","text":"3 sentences"},{"years":"2031-2032","energy":"Fire","text":"3 sentences"},{"years":"2033-2034","energy":"Earth","text":"3 sentences"}],"final_message":"3-4 personal sentences","lucky_color":"word","lucky_number":"digit","lucky_direction":"direction","lucky_season":"season","lucky_stone":"gemstone","lucky_time":"time","scores":{"love":0,"career":0,"wealth":0,"health":0,"luck":0}}`;
+  return `You are a master Korean Saju grandmaster with 40 years of experience. Write an extremely detailed, personal, and accurate premium Saju reading. Be specific to THIS person's four pillars. Write ALL content in fluent poetic English only. Never use Korean or Chinese characters in content fields.
+
+Client: ${g.name} | Born: ${g.yr}/${g.mo}/${g.dy}${!isNaN(g.hr)?' at '+g.hr+':00':''} | Location: ${g.place||'unknown'} | Gender: ${g.gen||'unspecified'}
+Four Pillars: Year ${g.yp.stem}${g.yp.branch}(${g.yp.el}, Year of ${g.yp.animal}) | Month ${g.mp.stem}${g.mp.branch}(${g.mp.el}) | Day Master ${g.dp.stem}${g.dp.branch}(${g.dp.el}) | ${g.hp?'Hour '+g.hp.stem+g.hp.branch:'No hour pillar'}
+
+Return ONLY valid JSON, no markdown:
+{
+  "daymaster": "Element Symbol — Poetic Title",
+  "ch1": {
+    "saju_chart": "3-4 sentences explaining their overall four pillars chart composition",
+    "daewoon": "3-4 sentences about their grand fortune cycle and current phase",
+    "ohang": "3-4 sentences about their five elements balance and what it means"
+  },
+  "ch2": {
+    "who_am_i": "4-5 sentences: their core identity and fundamental nature",
+    "lifestyle": "4-5 sentences: their natural lifestyle patterns",
+    "behavior": "4-5 sentences: their behavioral tendencies",
+    "nature": "4-5 sentences: their innate temperament and character",
+    "inner": "4-5 sentences: their inner world and hidden feelings"
+  },
+  "ch3": {
+    "my_sipsung": "4-5 sentences: their dominant ten stars meaning",
+    "social": "4-5 sentences: how they relate to society and colleagues",
+    "family": "4-5 sentences: family dynamics in their chart",
+    "charm": "4-5 sentences: what charm others feel from them",
+    "by_period": {
+      "early": "3-4 sentences about ten stars in childhood ages 0-20",
+      "youth": "3-4 sentences about ten stars in youth ages 20-40",
+      "middle": "3-4 sentences about ten stars in middle age 40-60",
+      "late": "3-4 sentences about ten stars in later life 60+"
+    }
+  },
+  "ch4": {
+    "overall": "4-5 sentences: overall twelve phases analysis",
+    "by_period": {
+      "early": "3-4 sentences in childhood",
+      "youth": "3-4 sentences in youth",
+      "middle": "3-4 sentences in middle age",
+      "late": "3-4 sentences in later life"
+    }
+  },
+  "ch5": {
+    "overall": "4-5 sentences: special stars in their chart and meaning",
+    "guardian": {
+      "early": "2-3 sentences about benefactors in childhood",
+      "youth": "2-3 sentences in youth",
+      "middle": "2-3 sentences in middle age",
+      "late": "2-3 sentences in later life"
+    }
+  },
+  "ch7": {
+    "overall": "4-5 sentences: overall wealth fortune",
+    "by_period": {
+      "early": "3-4 sentences about wealth in early life",
+      "youth": "3-4 sentences in youth",
+      "middle": "3-4 sentences in middle age",
+      "late": "3-4 sentences in later life"
+    },
+    "characteristics": "4-5 sentences: unique characteristics of their wealth",
+    "spending": "3-4 sentences: their natural spending habits",
+    "lucky_items": "3-4 specific lucky items with brief explanation each"
+  },
+  "ch8": {
+    "appeal": "4-5 sentences: romantic appeal they radiate",
+    "love_style": "4-5 sentences: how they behave in relationships",
+    "avoid": "3-4 sentences: types of people to avoid romantically",
+    "advice": "4-5 sentences: advice to improve love fortune",
+    "marriage": "4-5 sentences: marriage timing and ideal partner"
+  },
+  "ch9": {
+    "talent": "4-5 sentences: natural talents in their chart",
+    "maximize": "4-5 sentences: how to maximize these talents",
+    "best_work": "4-5 sentences: best workplaces and 4-5 specific career paths",
+    "helpers": "3-4 sentences: people who will help their career",
+    "avoid_people": "3-4 sentences: people to avoid at work"
+  },
+  "ch10": {
+    "constitution": "4-5 sentences: innate constitution and health tendencies",
+    "vulnerable": "3-4 sentences: vulnerable body parts and organ systems",
+    "good_exercise": "3-4 sentences: exercises that suit them",
+    "bad_exercise": "2-3 sentences: exercises to be cautious about",
+    "diet": "3-4 sentences: beneficial dietary habits"
+  },
+  "ch11": {
+    "cycles": [
+      {"years":"2025-2026","energy":"Metal","text":"4-5 sentences about this cycle"},
+      {"years":"2027-2028","energy":"Water","text":"4-5 sentences"},
+      {"years":"2029-2030","energy":"Wood","text":"4-5 sentences"},
+      {"years":"2031-2032","energy":"Fire","text":"4-5 sentences"},
+      {"years":"2033-2034","energy":"Earth","text":"4-5 sentences"}
+    ]
+  },
+  "ch12": {
+    "this_year": "4-5 sentences: detailed 2026 fortune overview",
+    "monthly_2026": [
+      {"month":"January","rating":3,"text":"3-4 sentences"},
+      {"month":"February","rating":4,"text":"3-4 sentences"},
+      {"month":"March","rating":5,"text":"3-4 sentences"},
+      {"month":"April","rating":4,"text":"3-4 sentences"},
+      {"month":"May","rating":3,"text":"3-4 sentences"},
+      {"month":"June","rating":4,"text":"3-4 sentences"},
+      {"month":"July","rating":5,"text":"3-4 sentences"},
+      {"month":"August","rating":3,"text":"3-4 sentences"},
+      {"month":"September","rating":4,"text":"3-4 sentences"},
+      {"month":"October","rating":5,"text":"3-4 sentences"},
+      {"month":"November","rating":3,"text":"3-4 sentences"},
+      {"month":"December","rating":4,"text":"3-4 sentences"}
+    ],
+    "next_years": [
+      {"year":"2027","text":"3-4 sentences"},
+      {"year":"2028","text":"3-4 sentences"},
+      {"year":"2029","text":"3-4 sentences"},
+      {"year":"2030","text":"3-4 sentences"},
+      {"year":"2031","text":"3-4 sentences"}
+    ]
+  },
+  "final_message": "5-6 deeply personal closing sentences unique to this person",
+  "lucky_color":"one word","lucky_number":"one digit","lucky_direction":"one direction","lucky_season":"one season","lucky_stone":"one gemstone","lucky_time":"time of day",
+  "scores":{"love":0,"career":0,"wealth":0,"health":0,"luck":0}
+}`;
 }
 
 // ── 헬퍼
@@ -598,22 +713,123 @@ function renderFree(r){
 
 // ── 프리미엄 렌더
 function renderPremium(r){
-  S('pResName',G.name+"'s Premium Cosmic Reading");
-  S('pResMeta',`Born ${MNS[G.mo]||''} ${G.dy}, ${G.yr}${G.place?' · '+G.place:''} · Year of the ${G.yp.animal} · ${r.daymaster}`);
+  const chap=(num,koTitle,enTitle,items)=>{
+    const rows=items.map(([label,text])=>text?`
+      <div style="margin-bottom:22px">
+        <div style="font-size:10px;letter-spacing:.25em;color:var(--gold);opacity:.75;margin-bottom:7px;font-family:'Cinzel Decorative',serif;text-transform:uppercase">${label}</div>
+        <div class="bc">${splitP(text)}</div>
+      </div>`:''
+    ).join('');
+    return `<div class="block pb" style="margin-bottom:14px">
+      <div class="block-title" style="margin-bottom:20px">
+        <span style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);padding:3px 12px;border-radius:20px;font-size:10px;letter-spacing:.15em;margin-right:10px">${num}</span>
+        ${koTitle} · <span style="opacity:.7;font-size:12px">${enTitle}</span>
+      </div>${rows}</div>`;
+  };
+  const bp=(obj,label)=>[
+    [label+' · Childhood (0–20)',obj?.early||''],
+    [label+' · Youth (20–40)',obj?.youth||''],
+    [label+' · Middle Age (40–60)',obj?.middle||''],
+    [label+' · Later Life (60+)',obj?.late||''],
+  ];
+  let html='';
+  if(r.ch1)html+=chap('Chapter 1','사주원국','Four Pillars Chart',[
+    ['Saju Chart Overview',r.ch1.saju_chart],
+    ['Grand Fortune · 대운',r.ch1.daewoon],
+    ['Five Elements · 오행',r.ch1.ohang],
+  ]);
+  if(r.ch2)html+=chap('Chapter 2','일주와 오행 분석','Day Master Analysis',[
+    ['Who Am I',r.ch2.who_am_i],
+    ['My Lifestyle',r.ch2.lifestyle],
+    ['My Behavioral Tendencies',r.ch2.behavior],
+    ['My Innate Nature & Character',r.ch2.nature],
+    ['My Inner World',r.ch2.inner],
+  ]);
+  if(r.ch3)html+=chap('Chapter 3','십성 분석','Ten Stars Analysis',[
+    ['My Ten Stars',r.ch3.my_sipsung],
+    ['My Social Relations',r.ch3.social],
+    ['My Family Relations',r.ch3.family],
+    ['The Charm Others Feel From Me',r.ch3.charm],
+    ...bp(r.ch3.by_period,'Ten Stars by Period'),
+  ]);
+  if(r.ch4)html+=chap('Chapter 4','십이운성 분석','Twelve Phases',[
+    ['Overall Analysis',r.ch4.overall],
+    ...bp(r.ch4.by_period,'Twelve Phases'),
+  ]);
+  if(r.ch5)html+=chap('Chapter 5','신살 분석','Special Stars',[
+    ['Overall Special Stars',r.ch5.overall],
+    ...bp(r.ch5.guardian,'Guardian Stars & Benefactors'),
+  ]);
+  if(r.ch7)html+=chap('Chapter 7','재물운','Wealth Fortune',[
+    ['Overall Wealth Fortune',r.ch7.overall],
+    ...bp(r.ch7.by_period,'Wealth by Period'),
+    ['My Wealth Characteristics',r.ch7.characteristics],
+    ['My Spending Habits',r.ch7.spending],
+    ['Lucky Items to Boost Wealth',r.ch7.lucky_items],
+  ]);
+  if(r.ch8)html+=chap('Chapter 8','연애 & 결혼운','Love & Marriage',[
+    ['The Appeal I Radiate',r.ch8.appeal],
+    ['My Love Style',r.ch8.love_style],
+    ['People to Avoid',r.ch8.avoid],
+    ['Advice for Love Fortune',r.ch8.advice],
+    ['Marriage or Not',r.ch8.marriage],
+  ]);
+  if(r.ch9)html+=chap('Chapter 9','직업운','Career Fortune',[
+    ['My Natural Talents',r.ch9.talent],
+    ['How to Maximize My Talents',r.ch9.maximize],
+    ['Best Career Paths & Workplaces',r.ch9.best_work],
+    ['People Who Will Help My Career',r.ch9.helpers],
+    ['People to Avoid at Work',r.ch9.avoid_people],
+  ]);
+  if(r.ch10)html+=chap('Chapter 10','건강운','Health Fortune',[
+    ['My Constitution & Health',r.ch10.constitution],
+    ['Vulnerable Body Areas',r.ch10.vulnerable],
+    ['Best Exercises for Me',r.ch10.good_exercise],
+    ['Exercises to Be Cautious About',r.ch10.bad_exercise],
+    ['Beneficial Diet & Food Habits',r.ch10.diet],
+  ]);
+  if(r.ch11?.cycles){
+    html+=`<div class="block pb"><div class="block-title" style="margin-bottom:20px">
+      <span style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);padding:3px 12px;border-radius:20px;font-size:10px;letter-spacing:.15em;margin-right:10px">Chapter 11</span>
+      대운 · <span style="opacity:.7;font-size:12px">Grand Fortune Cycles</span></div>
+      <div class="dec-grid">${r.ch11.cycles.map(d=>`<div class="dec-card"><div class="dc-yr">${d.years}${d.energy?' · '+d.energy:''}</div><div class="dc-txt">${d.text}</div></div>`).join('')}</div></div>`;
+  }
+  if(r.ch12){
+    html+=`<div class="block pb"><div class="block-title" style="margin-bottom:20px">
+      <span style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);padding:3px 12px;border-radius:20px;font-size:10px;letter-spacing:.15em;margin-right:10px">Chapter 12</span>
+      향후 5년 연운 · <span style="opacity:.7;font-size:12px">Next 5 Years Fortune</span></div>
+      <div style="margin-bottom:20px"><div style="font-size:10px;letter-spacing:.25em;color:var(--gold);opacity:.75;margin-bottom:7px;font-family:'Cinzel Decorative',serif">2026 THIS YEAR</div>
+      <div class="bc">${splitP(r.ch12.this_year||'')}</div></div>`;
+    if(r.ch12.monthly_2026)html+=`<div style="font-size:10px;letter-spacing:.25em;color:var(--gold);opacity:.75;margin-bottom:10px;font-family:'Cinzel Decorative',serif">2026 MONTHLY FORECAST</div>
+      <div class="month-grid" style="margin-bottom:20px">${r.ch12.monthly_2026.map(m=>`<div class="month-card"><div class="mc-mo">${m.month.toUpperCase()}</div><div class="mc-stars">${[1,2,3,4,5].map(n=>`<span class="mc-star${n<=m.rating?' on':''}">★</span>`).join('')}</div><div class="mc-txt">${m.text}</div></div>`).join('')}</div>`;
+    if(r.ch12.next_years)html+=`<div style="font-size:10px;letter-spacing:.25em;color:var(--gold);opacity:.75;margin-bottom:10px;font-family:'Cinzel Decorative',serif">2027–2031 YEARLY FORECAST</div>
+      <div class="dec-grid">${r.ch12.next_years.map(y=>`<div class="dec-card"><div class="dc-yr">${y.year}</div><div class="dc-txt">${y.text}</div></div>`).join('')}</div>`;
+    html+=`</div>`;
+  }
+  if(r.final_message)html+=`<div class="block pb" style="border-color:rgba(201,168,76,.4);background:linear-gradient(145deg,rgba(201,168,76,.08),rgba(201,168,76,.02))">
+    <div class="block-title"><span class="bi">✨</span> A Personal Message for You</div>
+    <div class="bc" style="font-style:italic;font-size:clamp(15px,2vw,18px);line-height:2;color:var(--gold-l);">${splitP(r.final_message)}</div></div>`;
+  html+=`<div class="block pb"><div class="block-title"><span class="bi">⭐</span> Lucky Elements</div><div class="lucky-grid" id="pLuckyGrid"></div></div>`;
+  const sc=r.scores||{};
+  html+=`<div class="block pb"><div class="block-title"><span class="bi">☯</span> Destiny Balance</div>${Object.entries(sc).map(([k,v])=>`<div class="sc-row"><div class="sc-lbl">${k.charAt(0).toUpperCase()+k.slice(1)}</div><div class="sc-bar"><div class="sc-fill" data-w="${v}"></div></div><div class="sc-num">${v}</div></div>`).join('')}</div>`;
+  document.getElementById('premResults').innerHTML=`
+    <div class="res-hdr">
+      <div class="res-name">${G.name}'s Premium Cosmic Reading</div>
+      <div class="res-meta">Born ${MNS[G.mo]||''} ${G.dy}, ${G.yr}${G.place?' · '+G.place:''} · Year of the ${G.yp.animal} · ${r.daymaster}</div>
+      <div class="prem-badge">👑 PREMIUM READING</div>
+    </div>
+    <div class="divider"><div class="dl"></div><div class="ds">四柱八字</div><div class="dl"></div></div>
+    <div class="pillars" id="pPillars"></div>
+    <div class="ohang-block pb" id="pOhangBlock" style="display:none">
+      <div class="block-title"><span class="bi">🌿</span> Five Elements Balance</div>
+      <div id="pOhangBars"></div><div class="ohang-note" id="pOhangNote"></div>
+    </div>
+    ${html}
+    <div style="text-align:center;margin-top:24px;">
+      <button class="btn-pdf" onclick="downloadPDF()">⬇ Download Full PDF Report</button>
+    </div>`;
   renderPillars('pPillars',G.yp,G.mp,G.dp,G.hp);
   renderOhang(G.yp,G.mp,G.dp,G.hp,'pOhangBars','pOhangNote','pOhangBlock');
-  S('pCore',splitP(r.core_nature||r.lifetime||''));
-  S('pLife',splitP(r.lifetime||''));
-  S('pLove',splitP(r.love_deep||''));
-  S('pMarriage',splitP(r.marriage||''));
-  S('pCareer',splitP(r.career_deep||''));
-  S('pWealth',splitP(r.wealth_deep||''));
-  S('pHealth',splitP(r.health||''));
-  S('p2026',`<p style="margin-bottom:16px;font-size:16px;line-height:1.9">${r.yearly_2026||''}</p>`);
-  if(r.monthly_2026)S('monthGrid',r.monthly_2026.map(m=>`<div class="month-card"><div class="mc-mo">${m.month.toUpperCase()}</div><div class="mc-stars">${[1,2,3,4,5].map(n=>`<span class="mc-star${n<=m.rating?' on':''}">★</span>`).join('')}</div><div class="mc-txt">${m.text}</div></div>`).join(''));
-  S('pDaewoon','<p style="margin-bottom:16px;font-size:15px;line-height:1.9;opacity:.8">Your destiny unfolds in 10-year grand cycles — 대운 (Daewoon). Each cycle activates a different elemental energy, opening and closing chapters of your life.</p>');
-  if(r.decade)S('decGrid',r.decade.map(d=>`<div class="dec-card"><div class="dc-yr">${d.years}${d.energy?' · '+d.energy:''}</div><div class="dc-txt">${d.text}</div></div>`).join(''));
-  if(r.final_message)S('pMsg',splitP(r.final_message));
   renderLucky('pLuckyGrid',r);
   document.getElementById('premResults').className='results show';
   document.getElementById('premResults').scrollIntoView({behavior:'smooth',block:'start'});
